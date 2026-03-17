@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 
 export const ContactSection = () => {
   const formRef = useRef();
@@ -33,7 +33,6 @@ export const ContactSection = () => {
         formRef.current.reset(); // Xóa form sau khi gửi thành công
       }
     } catch (error) {
-      console.error("Failed to send email:", error);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -161,9 +160,13 @@ export const ContactSection = () => {
                   placeholder="HieuTech..."
                 />
               </div>
-              {submitStatus === "error" && (
+              {submitStatus === "error" ? (
                 <p className="text-red-500 text-sm">
                   Something wrong. Please try again!
+                </p>
+              ) : (
+                <p className="text-green-500 text-sm">
+                  Sent success!
                 </p>
               )}
               <button
