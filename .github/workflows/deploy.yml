@@ -1,0 +1,44 @@
+name: Deploy Portfolio to GitHub Pages
+
+# Kích hoạt CI/CD mỗi khi có code mới đẩy lên nhánh 'main'
+on:
+  push:
+    branches: [ main ]
+
+# Cấp quyền cho GitHub Actions được phép ghi đè lên repo
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Kéo code của bạn từ kho về máy ảo
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Cài đặt môi trường Node.js (Vite cần cái này)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Cài đặt các thư viện (node_modules)
+      - name: Install dependencies
+        run: npm install
+
+      # 4. Đóng gói code thành file tĩnh (Kèm theo việc gọi key từ két sắt)
+      - name: Build project
+        run: npm run build
+        env:
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+
+      # 5. Đẩy sản phẩm (thư mục dist) lên nhánh gh-pages để host
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
