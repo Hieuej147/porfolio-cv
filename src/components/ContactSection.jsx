@@ -160,13 +160,12 @@ export const ContactSection = () => {
                   placeholder="HieuTech..."
                 />
               </div>
-              {submitStatus === "error" ? (
+              {submitStatus === "success" && (
+                <p className="text-green-500 text-sm">Sent success! 🎉</p>
+              )}
+              {submitStatus === "error" && (
                 <p className="text-red-500 text-sm">
                   Something wrong. Please try again!
-                </p>
-              ) : (
-                <p className="text-green-500 text-sm">
-                  Sent success!
                 </p>
               )}
               <button
