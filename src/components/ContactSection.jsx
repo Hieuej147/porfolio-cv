@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
+import emailjs from '@emailjs/browser';
 
 export const ContactSection = () => {
   const formRef = useRef();
