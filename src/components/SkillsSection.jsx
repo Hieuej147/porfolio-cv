@@ -1,8 +1,7 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-// Import icons...
 import {
   FaHtml5,
   FaCss3Alt,
@@ -24,7 +23,6 @@ import {
 import { VscCode } from "react-icons/vsc";
 import { Briefcase, Code } from "lucide-react";
 
-// Dữ liệu skills...
 const skills = [
   {
     name: "HTML/CSS",
@@ -76,7 +74,6 @@ const skills = [
     category: "backend",
     icon: <SiPostgresql className="text-blue-600" />,
   },
-
   {
     name: "Git/GitHub",
     level: 90,
@@ -98,15 +95,39 @@ const skills = [
   {
     name: "Nestjs",
     category: "backend",
+    level: 80,
     icon: <SiNestjs className="text-red-500" />,
   },
 ];
+
 const categories = ["all", "frontend", "backend", "tools"];
 
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.8, y: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" },
+  },
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 export const SkillsSection = () => {
@@ -119,10 +140,25 @@ export const SkillsSection = () => {
   return (
     <section id="skills" className="py-24 px-4 relative bg-secondary/10">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+        {/* Heading */}
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold text-center mb-12"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           My<span className="text-primary"> Skills</span>
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        </motion.h2>
+
+        {/* Filter buttons */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-4 mb-12"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+        >
           {categories.map((category) => (
             <motion.button
               key={category}
@@ -133,47 +169,50 @@ export const SkillsSection = () => {
                   ? "bg-primary text-primary-foreground"
                   : "bg-secondary/70 text-foreground hover:bg-secondary",
               )}
+              variants={fadeInUp}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {category}
             </motion.button>
           ))}
-        </div>
+        </motion.div>
+
+        {/* Skills grid — re-mount khi đổi category để trigger animation lại */}
         <motion.div
-          layout // Dùng layout ở đây để grid tự sắp xếp mượt mà
+          key={activeCategory}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
         >
-          <AnimatePresence>
-            {filteredSkills.map((skill) => (
-              <motion.div
-                key={skill.name}
-                variants={cardVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                layout="position"
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="bg-card p-6 rounded-lg shadow-xs card-hover flex flex-col items-center text-center"
-              >
-                <div className="text-4xl mb-3 h-10 w-10 flex items-center justify-center text-primary">
-                  {skill.icon || <Briefcase />}
-                </div>
-                <h3 className="text-lg font-semibold mb-3"> {skill.name}</h3>
-                <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden mb-1">
-                  <div
-                    className="bg-primary h-2 rounded-full"
-                    style={{ width: `${skill.level}%` }}
-                  />
-                </div>
-                <div className="text-right w-full">
-                  <span className="text-sm text-muted-foreground">
-                    {skill.level}%
-                  </span>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
+          {filteredSkills.map((skill) => (
+            <motion.div
+              key={skill.name}
+              variants={cardVariants}
+              whileHover={{ scale: 1.03, y: -4 }}
+              transition={{ type: "spring", stiffness: 280, damping: 20 }}
+              className="bg-card p-6 rounded-lg shadow-xs card-hover flex flex-col items-center text-center"
+            >
+              <div className="text-4xl mb-3 h-10 w-10 flex items-center justify-center text-primary">
+                {skill.icon || <Briefcase />}
+              </div>
+              <h3 className="text-lg font-semibold mb-3">{skill.name}</h3>
+              <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden mb-1">
+                <motion.div
+                  className="bg-primary h-2 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${skill.level ?? 0}%` }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                />
+              </div>
+              <div className="text-right w-full">
+                <span className="text-sm text-muted-foreground">
+                  {skill.level ? `${skill.level}%` : ""}
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>
