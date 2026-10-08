@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 export const ThemeToggle = () => {
   const [isDarkMode, setDarkMode] = useState(false);
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark") {
@@ -11,9 +12,9 @@ export const ThemeToggle = () => {
       document.documentElement.classList.add("dark");
     } else {
       setDarkMode(false);
-      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
     }
-  });
+  }, []);
 
   const toggleTheme = () => {
     if (isDarkMode) {
@@ -26,20 +27,29 @@ export const ThemeToggle = () => {
       localStorage.setItem("theme", "dark");
     }
   };
+
   return (
     <button
-      onClick={() => toggleTheme()}
+      onClick={toggleTheme}
       className={cn(
-        "fixed bottom-5 right-5 sm:top-5 sm:bottom-auto z-50 p-2 rounded-full transition-all duration-300",
-        "bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-hidden",
-        "focus:outline-none focus:ring-2 focus:ring-primary"
+        "fixed bottom-5 right-5 z-50 px-3 py-2 transition-all duration-200 clip-corner-sm flex items-center gap-2 cursor-pointer shadow-tactical border",
+        "bg-card border-border hover:border-[#edea46] text-foreground font-mono text-xs font-bold select-none"
       )}
+      aria-label="Toggle tactical interface theme"
     >
+      <span className="w-2 h-2 rounded-full bg-[#edea46] shadow-[0_0_6px_#edea46]" />
       {isDarkMode ? (
-        <Sun className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-300" />
+        <>
+          <Sun size={14} className="text-[#edea46]" />
+          <span className="hidden sm:inline">CAD LIGHT</span>
+        </>
       ) : (
-        <Moon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-900" />
+        <>
+          <Moon size={14} className="text-foreground" />
+          <span className="hidden sm:inline">NIGHT OPS</span>
+        </>
       )}
     </button>
   );
 };
+

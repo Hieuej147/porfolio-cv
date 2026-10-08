@@ -1,59 +1,28 @@
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import {
-  Instagram,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
+  Github,
+  Globe2,
   Linkedin,
   Mail,
   MapPin,
   Phone,
+  Radio,
   Send,
-  Twitch,
+  ShieldCheck,
+  Terminal,
   Twitter,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
-
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: "easeOut" },
-  }),
-};
-
-const fadeInLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const fadeInRight = {
-  hidden: { opacity: 0, x: 40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
 
 export const ContactSection = () => {
   const formRef = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState("idle");
+  const [submitStatus, setSubmitStatus] = useState("idle"); // 'idle' | 'success' | 'error'
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,7 +40,7 @@ export const ContactSection = () => {
         setSubmitStatus("success");
         formRef.current.reset();
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -79,279 +48,304 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-4 relative bg-secondary/30">
-      <div className="container mx-auto max-w-5xl">
-        {/* Heading */}
-        <motion.h2
-          className="text-3xl md:text-4xl font-bold mb-4 text-center"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-        >
-          Get In <span className="text-primary">Touch</span>
-        </motion.h2>
+    <section
+      id="contact"
+      className="py-24 px-4 sm:px-6 lg:px-8 relative border-t border-border/40 bg-surface/20 dark:bg-card/20"
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Section Header */}
+        <div className="mb-14 text-left">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#929292] mb-2">
+            <span className="font-tech font-bold text-[#edea46] bg-black px-1.5 py-0.5 clip-corner-sm">
+              05
+            </span>
+            <span>// COMMUNICATION · CONTACT DETAILS</span>
+          </div>
 
-        <motion.p
-          className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          custom={1}
-          viewport={{ once: true, amount: 0.5 }}
-        >
-          Have a project in mind or want to collaborate? Feel free to reach out.
-          I'm always open to discussing new opportunities.
-        </motion.p>
+          <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-border/60 pb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-tech font-black uppercase tracking-tight text-foreground">
+              GET IN{" "}
+              <span className="text-black bg-[#edea46] px-2 py-0.5 clip-corner shadow-tactical-sm">
+                TOUCH
+              </span>
+            </h2>
+            <span className="font-mono text-xs text-muted-foreground hidden md:inline">
+              [ AVAILABLE FOR FULL-TIME & CONTRACT OPPORTUNITIES ]
+            </span>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left: Contact Info */}
+        {/* Console Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          {/* Left Column: Telemetry & Comm Channels */}
           <motion.div
-            className="space-y-8"
-            variants={fadeInLeft}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="lg:col-span-5 text-left space-y-6"
           >
-            <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
+            {/* Telemetry Status Console */}
+            <div className="relative bg-card border border-border p-5 clip-corner shadow-tactical space-y-4">
+              {/* Caution stripe corner */}
+              <div className="absolute top-0 right-0 w-20 h-2 bg-hazard opacity-60" />
 
-            {/* Contact items with stagger */}
-            <motion.div
-              className="space-y-6 justify-center"
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
-            >
-              {/* Email */}
-              <motion.div
-                className="flex items-start space-x-4"
-                variants={fadeInUp}
-              >
-                <motion.div
-                  className="p-3 rounded-full bg-primary/10"
-                  whileHover={{ scale: 1.15, rotate: 8 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Mail className="h-6 w-6 text-primary" />
-                </motion.div>
-                <div>
-                  <h4 className="font-medium">Email</h4>
-                  <a
-                    href="hihigani@gmail.com"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    hello@gmail.com
-                  </a>
+              <div className="flex items-center justify-between pb-3 border-b border-border/40">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold text-foreground">
+                  <Radio size={14} className="text-[#edea46] animate-pulse" />
+                  <span>AVAILABILITY STATUS</span>
                 </div>
-              </motion.div>
+                <span className="font-mono text-[10px] text-green-500 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                  OPEN TO WORK
+                </span>
+              </div>
+
+              <p className="text-muted-foreground text-xs leading-relaxed font-mono">
+                Direct channels are open for full-time software engineering
+                roles, project contracts, and architectural consultations.
+                Expected turnaround time is under 24 hours.
+              </p>
+
+              <div className="font-mono text-[11px] space-y-2 pt-2 border-t border-border/40">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">TURNAROUND:</span>
+                  <span className="font-semibold text-foreground">
+                    &lt; 24 HOURS
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">WORK MODE:</span>
+                  <span className="font-semibold text-foreground">
+                    REMOTE / HYBRID
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">TIMEZONE:</span>
+                  <span className="font-semibold text-foreground">
+                    Indochina Time (UTC+7)
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Direct Channel Cards */}
+            <div className="space-y-3 font-mono">
+              {/* Email */}
+              <a
+                href="mailto:hihigani@gmail.com"
+                className="flex items-center gap-4 p-4 bg-card border border-border clip-corner-sm hover:border-[#edea46] hover:shadow-tactical-sm transition-all group"
+              >
+                <div className="p-2.5 bg-[#edea46] text-black clip-corner-sm">
+                  <Mail size={18} />
+                </div>
+                <div>
+                  <div className="text-[10px] text-muted-foreground uppercase">
+                    EMAIL
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-foreground group-hover:text-[#edea46] transition-colors">
+                    hihigani@gmail.com
+                  </div>
+                </div>
+              </a>
 
               {/* Phone */}
-              <motion.div
-                className="flex items-start space-x-4"
-                variants={fadeInUp}
+              <a
+                href="tel:+847837438537"
+                className="flex items-center gap-4 p-4 bg-card border border-border clip-corner-sm hover:border-[#edea46] hover:shadow-tactical-sm transition-all group"
               >
-                <motion.div
-                  className="p-3 rounded-full bg-primary/10"
-                  whileHover={{ scale: 1.15, rotate: 8 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <Phone className="h-6 w-6 text-primary" />
-                </motion.div>
-                <div>
-                  <h4 className="font-medium">Phone</h4>
-                  <a
-                    href="tel:+7859757295"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    7837438537
-                  </a>
+                <div className="p-2.5 bg-foreground text-background dark:bg-white dark:text-black clip-corner-sm">
+                  <Phone size={18} />
                 </div>
-              </motion.div>
+                <div>
+                  <div className="text-[10px] text-muted-foreground uppercase">
+                    PHONE
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-foreground group-hover:text-[#edea46] transition-colors">
+                    +84 7837438537
+                  </div>
+                </div>
+              </a>
 
               {/* Location */}
-              <motion.div
-                className="flex items-start space-x-4"
-                variants={fadeInUp}
-              >
-                <motion.div
-                  className="p-3 rounded-full bg-primary/10"
-                  whileHover={{ scale: 1.15, rotate: 8 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <MapPin className="h-6 w-6 text-primary" />
-                </motion.div>
-                <div>
-                  <h4 className="font-medium">Location</h4>
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    An Giang, Go Quao
-                  </a>
+              <div className="flex items-center gap-4 p-4 bg-card border border-border clip-corner-sm">
+                <div className="p-2.5 bg-black/5 dark:bg-black/60 text-foreground clip-corner-sm border border-border/40">
+                  <MapPin size={18} />
                 </div>
-              </motion.div>
-            </motion.div>
+                <div>
+                  <div className="text-[10px] text-muted-foreground uppercase">
+                    LOCATION
+                  </div>
+                  <div className="text-xs sm:text-sm font-bold text-foreground">
+                    An Giang, Vietnam
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Social Icons */}
-            <motion.div
-              className="pt-8"
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              custom={4}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-primary mb-4">Contact with me</h4>
-              <motion.div
-                className="flex space-x-4 justify-center"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {[
-                  { icon: <Linkedin />, href: "" },
-                  { icon: <Twitter />, href: "" },
-                  { icon: <Instagram />, href: "" },
-                  { icon: <Twitch />, href: "" },
-                ].map((item, i) => (
-                  <motion.a
-                    key={i}
-                    href={item.href}
-                    variants={fadeInUp}
-                    whileHover={{ scale: 1.2, y: -4 }}
-                    whileTap={{ scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    {item.icon}
-                  </motion.a>
-                ))}
-              </motion.div>
-            </motion.div>
+            {/* Social Channels */}
+            <div className="pt-2">
+              <div className="text-[10px] font-mono text-muted-foreground uppercase mb-3">
+                // CONNECT ON SOCIAL
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://github.com/Hieuej147"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 bg-card border border-border hover:bg-[#edea46] hover:text-black clip-corner-sm transition-all shadow-tactical-sm"
+                  aria-label="GitHub Profile"
+                >
+                  <Github size={18} />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 bg-card border border-border hover:bg-[#edea46] hover:text-black clip-corner-sm transition-all shadow-tactical-sm"
+                  aria-label="LinkedIn Profile"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href="#"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-3 bg-card border border-border hover:bg-[#edea46] hover:text-black clip-corner-sm transition-all shadow-tactical-sm"
+                  aria-label="Twitter Profile"
+                >
+                  <Twitter size={18} />
+                </a>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Right: Form */}
+          {/* Right Column: Message Input Form */}
           <motion.div
-            className="bg-card p-8 rounded-lg shadow-xs"
-            variants={fadeInRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="lg:col-span-7 text-left"
           >
-            <h3 className="text-2xl font-semibold mb-6">Send a message</h3>
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-              {/* Name */}
-              <motion.div
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                custom={0}
-                viewport={{ once: true }}
-              >
-                <label
-                  htmlFor="user_name"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your name
-                </label>
-                <input
-                  type="text"
-                  id="user_name"
-                  name="user_name"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                  placeholder="Your name"
-                />
-              </motion.div>
+            <div className="relative bg-card border border-border p-6 sm:p-8 clip-corner shadow-tactical space-y-6">
+              {/* Corner crosshairs */}
+              <div className="absolute top-2 left-2 text-[10px] font-mono text-foreground/40">
+                +
+              </div>
+              <div className="absolute top-2 right-2 text-[10px] font-mono text-foreground/40">
+                +
+              </div>
+              <div className="absolute bottom-2 left-2 text-[10px] font-mono text-foreground/40">
+                +
+              </div>
+              <div className="absolute bottom-2 right-2 text-[10px] font-mono text-foreground/40">
+                +
+              </div>
 
-              {/* Email */}
-              <motion.div
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                custom={1}
-                viewport={{ once: true }}
-              >
-                <label
-                  htmlFor="user_email"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="user_email"
-                  name="user_email"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                  placeholder="your@email.com"
-                />
-              </motion.div>
+              {/* Form Title */}
+              <div className="flex items-center justify-between pb-4 border-b border-border/60">
+                <div>
+                  <h3 className="font-tech font-bold text-lg sm:text-xl text-foreground">
+                    SEND A MESSAGE
+                  </h3>
+                  <span className="font-mono text-[10px] text-muted-foreground uppercase">
+                    [ HAVE A QUESTION OR OPPORTUNITY? REACH OUT DIRECTLY ]
+                  </span>
+                </div>
+              </div>
 
-              {/* Message */}
-              <motion.div
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                custom={2}
-                viewport={{ once: true }}
-              >
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary resize-none"
-                  placeholder="Hello, I'd like to talk about..."
-                />
-              </motion.div>
+              {/* Form Element */}
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+                {/* Name */}
+                <div className="space-y-1.5 font-mono">
+                  <label
+                    htmlFor="user_name"
+                    className="block text-xs font-semibold text-foreground uppercase"
+                  >
+                    // YOUR NAME
+                  </label>
+                  <input
+                    type="text"
+                    id="user_name"
+                    name="user_name"
+                    required
+                    placeholder="e.g. John Doe / Hiring Manager"
+                    className="w-full px-4 py-3 bg-background border border-border clip-corner-sm text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#edea46] focus:ring-1 focus:ring-[#edea46] transition-colors"
+                  />
+                </div>
 
-              {/* Status messages */}
-              {submitStatus === "success" && (
-                <motion.p
-                  className="text-green-500 text-sm"
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  Sent success! 🎉
-                </motion.p>
-              )}
-              {submitStatus === "error" && (
-                <motion.p
-                  className="text-red-500 text-sm"
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  Something wrong. Please try again!
-                </motion.p>
-              )}
+                {/* Email */}
+                <div className="space-y-1.5 font-mono">
+                  <label
+                    htmlFor="user_email"
+                    className="block text-xs font-semibold text-foreground uppercase"
+                  >
+                    // YOUR EMAIL
+                  </label>
+                  <input
+                    type="email"
+                    id="user_email"
+                    name="user_email"
+                    required
+                    placeholder="e.g. contact@domain.com"
+                    className="w-full px-4 py-3 bg-background border border-border clip-corner-sm text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#edea46] focus:ring-1 focus:ring-[#edea46] transition-colors"
+                  />
+                </div>
 
-              {/* Submit button */}
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className={cn(
-                  "own-button w-full flex items-center justify-center gap-2",
-                  isSubmitting && "opacity-70 cursor-not-allowed",
+                {/* Message Payload */}
+                <div className="space-y-1.5 font-mono">
+                  <label
+                    htmlFor="message"
+                    className="block text-xs font-semibold text-foreground uppercase"
+                  >
+                    // YOUR MESSAGE
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={5}
+                    placeholder="Describe your project, team role, or collaboration scope..."
+                    className="w-full px-4 py-3 bg-background border border-border clip-corner-sm text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-[#edea46] focus:ring-1 focus:ring-[#edea46] transition-colors resize-none"
+                  />
+                </div>
+
+                {/* Status Banners */}
+                {submitStatus === "success" && (
+                  <div className="p-3 bg-[#edea46]/20 border border-[#edea46] clip-corner-sm flex items-center gap-2 font-mono text-xs text-foreground">
+                    <CheckCircle2 size={16} className="text-[#edea46]" />
+                    <span>
+                      MESSAGE SENT SUCCESSFULLY! I WILL GET BACK TO YOU SOON.
+                    </span>
+                  </div>
                 )}
-                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                whileTap={!isSubmitting ? { scale: 0.97 } : {}}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                {isSubmitting ? "Sending..." : "Send Message"}
-                <motion.span
-                  animate={isSubmitting ? { x: [0, 4, 0] } : {}}
-                  transition={{ repeat: Infinity, duration: 0.6 }}
+
+                {submitStatus === "error" && (
+                  <div className="p-3 bg-red-500/20 border border-red-500 clip-corner-sm flex items-center gap-2 font-mono text-xs text-red-400">
+                    <span>
+                      TRANSMISSION FAILED. PLEASE CHECK NETWORK OR EMAIL
+                      DIRECTLY AT HIHIGANI@GMAIL.COM.
+                    </span>
+                  </div>
+                )}
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={cn(
+                    "endfield-btn-primary w-full flex items-center justify-center gap-2 py-3.5",
+                    isSubmitting && "opacity-75 cursor-not-allowed",
+                  )}
                 >
-                  <Send size={16} />
-                </motion.span>
-              </motion.button>
-            </form>
+                  <Send size={15} />
+                  <span>
+                    {isSubmitting ? "SENDING MESSAGE..." : "SEND MESSAGE  >"}
+                  </span>
+                </button>
+              </form>
+            </div>
           </motion.div>
         </div>
       </div>

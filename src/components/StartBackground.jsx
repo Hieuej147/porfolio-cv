@@ -1,85 +1,74 @@
 import { useEffect, useState } from "react";
 
 export const StartBackground = () => {
-  const [stars, setStars] = useState([]);
-  const [meteors, setMeteors] = useState([]);
-  useEffect(() => {
-    genarateStars();
-    genarateMeteors();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    const handResize = () => {
-      genarateStars();
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
+      });
     };
 
-    window.addEventListener("resize", handResize);
-
-    return () => window.removeEventListener("resize", handResize);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
-  const genarateStars = () => {
-    const numberOfStars = Math.floor(
-      (window.innerWidth * window.innerHeight) / 10000
-    );
-    const newStars = [];
 
-    for (let i = 0; i < numberOfStars; i++) {
-      newStars.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.5 + 0.5,
-        aminationDuration: Math.random() * 4 + 2,
-      });
-    }
-    setStars(newStars);
-  };
-  const genarateMeteors = () => {
-    const numberOfMeteors = 4;
-    const newMeteors = [];
-
-    for (let i = 0; i < numberOfMeteors; i++) {
-      newMeteors.push({
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 20,
-        size: Math.random() * 2 + 1,
-        delay: Math.random() * 15,
-        aminationDuration: Math.random() * 3 + 3,
-      });
-    }
-    setMeteors(newMeteors);
-  };
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="my-star animate-pulse-subtle"
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            animationDuration: `${star.aminationDuration}s`,
-          }}
-        />
-      ))}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none">
+      {/* CAD Blueprint Grid */}
+      <div className="absolute inset-0 bg-cad-grid opacity-70" />
 
-      {meteors.map((meteor) => (
-        <div
-          key={meteor.id}
-          className="meteor animate-meteor"
-          style={{
-            left: `${meteor.x}%`,
-            top: `${meteor.y}%`,
-            width: `${meteor.size * 50}px`,
-            height: `${meteor.size * 2}px`,
-            animationDelay: meteor.delay,
-            animationDuration: `${meteor.aminationDuration}s`,
-          }}
-        />
-      ))}
+      {/* LooperGroup Dot Matrix Overlay */}
+      <div className="absolute inset-0 bg-looper-dots opacity-40" />
+
+      {/* Parallax Tactical Elements */}
+      <div
+        className="absolute inset-0 transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mousePos.x}px, ${mousePos.y}px, 0)`,
+        }}
+      >
+        {/* Top-Right HUD Coordinate Box */}
+        <div className="absolute top-20 right-8 hidden lg:flex flex-col items-end opacity-25 font-mono text-[10px] tracking-widest text-foreground">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-1.5 h-1.5 bg-[#edea46]"></span>
+            <span>SYS.LOC // 105.24°E 10.51°N</span>
+          </div>
+          <div>ELEVATION // 1420M · TALOS-II</div>
+          <div className="font-barcode text-lg tracking-normal opacity-60">
+            *EF-SEC-09*
+          </div>
+        </div>
+
+        {/* Bottom-Left HUD Data Marker */}
+        <div className="absolute bottom-16 left-8 hidden lg:flex flex-col opacity-25 font-mono text-[10px] tracking-widest text-foreground">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="inline-block w-2 h-0.5 bg-[#edea46]"></span>
+            <span>PROTOCOL // RECON-ARCHIVE</span>
+          </div>
+          <div>STATUS // 100% NOMINAL · READY</div>
+        </div>
+
+        {/* Tactical Crosshairs (+) in corners */}
+        <div className="absolute top-24 left-8 text-foreground/20 font-mono text-sm">
+          +
+        </div>
+        <div className="absolute top-24 right-8 text-foreground/20 font-mono text-sm">
+          +
+        </div>
+        <div className="absolute bottom-24 left-8 text-foreground/20 font-mono text-sm">
+          +
+        </div>
+        <div className="absolute bottom-24 right-8 text-foreground/20 font-mono text-sm">
+          +
+        </div>
+      </div>
+
+      {/* Subtle Slow Scanline Effect */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#edea46]/5 to-transparent h-24 w-full animate-scanline pointer-events-none opacity-30" />
     </div>
   );
 };
+
