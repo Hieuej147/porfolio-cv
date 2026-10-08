@@ -4,18 +4,13 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   CheckCircle2,
-  ChevronRight,
-  Clock,
   Github,
-  Globe2,
   Linkedin,
   Mail,
   MapPin,
   Phone,
   Radio,
   Send,
-  ShieldCheck,
-  Terminal,
   Twitter,
 } from "lucide-react";
 
@@ -57,7 +52,7 @@ export const ContactSection = () => {
         <div className="mb-14 text-left">
           <div className="flex items-center gap-2 font-mono text-xs text-[#929292] mb-2">
             <span className="font-tech font-bold text-[#edea46] bg-black px-1.5 py-0.5 clip-corner-sm">
-              05
+              04
             </span>
             <span>// COMMUNICATION · CONTACT DETAILS</span>
           </div>

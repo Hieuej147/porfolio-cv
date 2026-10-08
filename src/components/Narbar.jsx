@@ -6,8 +6,7 @@ const navItems = [
   { id: "01", name: "ABOUT", href: "#about" },
   { id: "02", name: "SKILLS", href: "#skills" },
   { id: "03", name: "PROJECTS", href: "#projects" },
-  { id: "04", name: "REVIEWS", href: "#reviews" },
-  { id: "05", name: "CONTACT", href: "#contact" },
+  { id: "04", name: "CONTACT", href: "#contact" },
 ];
 
 export const Navbar = () => {
@@ -28,7 +27,7 @@ export const Navbar = () => {
           hour: "2-digit",
           minute: "2-digit",
           second: "2-digit",
-        })
+        }),
       );
     };
 
@@ -48,7 +47,7 @@ export const Navbar = () => {
         "fixed top-0 left-0 w-full z-40 transition-all duration-300 isolate border-b",
         scrolled
           ? "py-2.5 bg-background/90 backdrop-blur-md border-border/80 shadow-tactical-sm"
-          : "py-4 bg-background/60 backdrop-blur-xs border-border/30"
+          : "py-4 bg-background/60 backdrop-blur-xs border-border/30",
       )}
     >
       {/* Top accent line */}
@@ -104,7 +103,9 @@ export const Navbar = () => {
           <div className="hidden lg:flex flex-col items-end font-mono text-[10px] text-muted-foreground border-l border-border/50 pl-3">
             <div className="flex items-center gap-1">
               <Radio size={10} className="text-[#edea46] animate-pulse" />
-              <span className="text-foreground font-semibold">{currentTime || "12:00:00"}</span>
+              <span className="text-foreground font-semibold">
+                {currentTime || "12:00:00"}
+              </span>
             </div>
             <span className="text-[9px] opacity-60">LOCAL TIME (UTC+7)</span>
           </div>
@@ -135,7 +136,7 @@ export const Navbar = () => {
           "fixed inset-x-0 top-[57px] bg-background/95 backdrop-blur-xl border-b border-border transition-all duration-300 md:hidden overflow-hidden",
           isMenuOpen
             ? "max-h-[460px] opacity-100 pointer-events-auto py-6 px-6"
-            : "max-h-0 opacity-0 pointer-events-none py-0 px-6"
+            : "max-h-0 opacity-0 pointer-events-none py-0 px-6",
         )}
       >
         <div className="flex flex-col space-y-3">
@@ -152,7 +153,9 @@ export const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono text-[#929292]">{item.id}</span>
+                <span className="text-xs font-mono text-[#929292]">
+                  {item.id}
+                </span>
                 <span>{item.name}</span>
               </div>
             </a>
@@ -170,4 +173,3 @@ export const Navbar = () => {
     </header>
   );
 };
-
